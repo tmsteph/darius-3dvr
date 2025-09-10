@@ -18,7 +18,8 @@
     .wrap{max-width:1100px; margin:0 auto; padding:24px}
 
     /* Header */
-    header{position:sticky; top:0; z-index:20; backdrop-filter:saturate(140%) blur(8px); background:linear-gradient(180deg, rgba(11,15,20,.9), rgba(11,15,20,.4) 70%, transparent);}
+    header{position:sticky; top:0; z-index:20; backdrop-filter:saturate(140%) blur(8px);
+      background:linear-gradient(180deg, rgba(11,15,20,.9), rgba(11,15,20,.4) 70%, transparent);}
     .nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
     .brand{display:flex; gap:12px; align-items:center}
     .brand .logo{width:36px; height:36px; border-radius:50%; background:radial-gradient(circle at 30% 30%, var(--accent), #2fb7ff 50%, #0969da 90%); box-shadow:0 0 24px rgba(108,240,255,.35)}
@@ -33,32 +34,46 @@
     .cta{display:flex; gap:12px; margin-top:18px}
     .cta .pill{padding:12px 16px; border-radius:999px; border:1px solid rgba(255,255,255,.15); background:var(--glass)}
 
-    /* Wrecking-ball stage */
-    .stage{position:relative; width:100%; aspect-ratio: 1.4 / 1; border-radius:22px; overflow:hidden; background:radial-gradient(120% 120% at 20% 0%, #0e2035 0%, #071018 45%, #02060d 100%); box-shadow:inset 0 0 80px rgba(0,0,0,.45), 0 20px 60px rgba(0,0,0,.35)}
-    .stage::after{content:""; position:absolute; inset:-2px; background:radial-gradient(120% 200% at 80% -20%, rgba(108,240,255,.18), transparent 60%), radial-gradient(120% 200% at 10% -30%, rgba(255,122,89,.22), transparent 60%); pointer-events:none}
+    /* Stage (animated wrecking-ball scene) */
+    .stage{position:relative; width:100%; aspect-ratio: 1.4 / 1; border-radius:22px; overflow:hidden;
+      background:radial-gradient(120% 120% at 20% 0%, #0e2035 0%, #071018 45%, #02060d 100%);
+      box-shadow:inset 0 0 80px rgba(0,0,0,.45), 0 20px 60px rgba(0,0,0,.35)}
+    .stage::after{content:""; position:absolute; inset:-2px; background:
+      radial-gradient(120% 200% at 80% -20%, rgba(108,240,255,.18), transparent 60%),
+      radial-gradient(120% 200% at 10% -30%, rgba(255,122,89,.22), transparent 60%); pointer-events:none}
 
-    /* Chains */
+    /* SVG pieces */
     .chain{stroke:#a9b8cc; stroke-width:2.4; fill:none; filter:drop-shadow(0 2px 0 rgba(0,0,0,.6))}
-    /* Balls */
     .ball{fill:url(#ballGrad); filter: drop-shadow(0 18px 24px rgba(0,0,0,.55))}
-    /* Person */
     .person{fill:url(#suitGrad)}
 
-    /* Photo overlay for Option B */
+    /* Photo overlay (no flicker: use will-change + translate3d) */
     .photoWrap{
-      position:absolute; inset:0; display:grid; place-items:center;
-      pointer-events:none; z-index:5;
+      position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; z-index:5;
+      will-change: transform, opacity;
     }
-    .photoWrap img{
-      width:min(64%, 660px); height:auto; object-fit:cover;
-      /* soft feathered oval mask */
-      -webkit-mask-image: radial-gradient(closest-side at 50% 45%, rgba(0,0,0,1) 68%, rgba(0,0,0,.6) 78%, rgba(0,0,0,0) 100%);
-              mask-image: radial-gradient(closest-side at 50% 45%, rgba(0,0,0,1) 68%, rgba(0,0,0,.6) 78%, rgba(0,0,0,0) 100%);
+    .photoOverlay{
+      width:min(56%, 600px); height:auto; object-fit:cover;
+      /* feathered oval mask */
+      -webkit-mask-image: radial-gradient(closest-side at 50% 45%, rgba(0,0,0,1) 64%, rgba(0,0,0,.6) 76%, rgba(0,0,0,0) 100%);
+              mask-image: radial-gradient(closest-side at 50% 45%, rgba(0,0,0,1) 64%, rgba(0,0,0,.6) 76%, rgba(0,0,0,0) 100%);
       filter: drop-shadow(0 12px 24px rgba(0,0,0,.45));
       mix-blend-mode: screen;
-      transform: translate(var(--photo-x, 0px), var(--photo-y, 22px)) scale(var(--photo-scale, 1)) rotate(var(--photo-rot, 0deg));
+      backface-visibility: hidden;
+      will-change: transform;
+      transform: translate3d(var(--photo-x, 0px), var(--photo-y, 16px), 0)
+                 scale(var(--photo-scale, 0.985))
+                 rotate(var(--photo-rot, 0deg));
     }
-
+    .photoWrap::after{
+      content:""; position:absolute; inset:0; margin:auto; width:54%; aspect-ratio:1/1; border-radius:50%;
+      background:radial-gradient(circle at 50% 50%, rgba(108,240,255,.45), rgba(108,240,255,.18) 40%, transparent 70%);
+      filter: blur(26px); pointer-events:none;
+      animation: throb 3.6s ease-in-out infinite;
+      transform: translate3d(var(--photo-x, 0px), calc(var(--photo-y, 16px) + 18px), 0) scale(1.08);
+      will-change: transform, opacity;
+    }
+    @keyframes throb { 0%{opacity:.55} 50%{opacity:.28} 100%{opacity:.6} }
 
     /* Cards */
     .cards{display:grid; grid-template-columns:repeat( auto-fit, minmax(260px, 1fr) ); gap:16px; margin:40px auto}
@@ -68,6 +83,11 @@
 
     /* Footer */
     footer{border-top:1px solid rgba(255,255,255,.08); margin-top:40px}
+
+    /* Motion accessibility */
+    @media (prefers-reduced-motion: reduce){
+      .photoWrap::after{animation:none}
+    }
 
     @media (max-width:900px){
       .hero .wrap{grid-template-columns:1fr;}
@@ -92,24 +112,21 @@
     <div class="wrap">
       <div>
         <h2>Bold. Kinetic. Unforgettable.</h2>
-        <p>Creative direction, performance, and vibes. When Darius enters, the room swings.
-        </p>
+        <p>Creative direction, performance, and vibes. When Darius enters, the room swings.</p>
         <div class="cta">
           <span class="pill">Artist • Performer • Creative</span>
           <a class="pill" href="#contact">Inquire for shows</a>
         </div>
       </div>
       <div>
-        <!-- Animated SVG scene -->
+        <!-- Animated SVG + photo overlay -->
         <div class="stage" role="img" aria-label="Stylized animation with photo overlay">
           <div class="photoWrap">
-            <!-- Use the optimized image below; tweak the CSS vars to line it up -->
             <img class="photoOverlay" src="darius-hero.webp"
-           alt="Darius sitting on a basketball hoop"
-           style="--photo-x: 10px; --photo-y: 10px; --photo-scale: 1.05; --photo-rot: -2deg;">
+                 alt="Darius sitting on a basketball hoop">
           </div>
-          
-          <svg viewBox="0 0 1200 860" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+
+          <svg viewBox="0 0 1200 860" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <defs>
               <linearGradient id="ballGrad" x1="0" x2="1" y1="0" y2="1">
                 <stop offset="0%" stop-color="#465469"/>
@@ -122,10 +139,7 @@
               </linearGradient>
               <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
                 <feGaussianBlur stdDeviation="6" result="b"/>
-                <feMerge>
-                  <feMergeNode in="b"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
               </filter>
             </defs>
 
@@ -138,23 +152,15 @@
             <path id="chainR" class="chain" d="M 960 70 Q 900 220 780 360" />
 
             <!-- Left ball -->
-            <g class="swingL">
-              <circle class="ball" cx="420" cy="360" r="70" />
-            </g>
+            <g class="swingL"><circle class="ball" cx="420" cy="360" r="70" /></g>
             <!-- Right ball -->
-            <g class="swingR">
-              <circle class="ball" cx="780" cy="360" r="70" />
-            </g>
+            <g class="swingR"><circle class="ball" cx="780" cy="360" r="70" /></g>
 
             <!-- Person (stylized) -->
             <g class="person swingPerson" filter="url(#glow)">
-              <!-- body -->
               <path d="M 600 270 q -34 50 -30 110 q 3 48 22 70 q 20 22 58 26 q 36 4 56 -8 q 24 -14 24 -44 q 0 -28 -24 -46 q -39 -30 -53 -67 q -18 -48 -53 -41 z" />
-              <!-- head -->
               <circle cx="617" cy="250" r="26" fill="#f7fbff" />
-              <!-- left hand to chainL -->
               <circle cx="545" cy="260" r="10" fill="#f7fbff" />
-              <!-- right hand to chainR -->
               <circle cx="690" cy="265" r="10" fill="#f7fbff" />
             </g>
 
@@ -183,7 +189,7 @@
       </article>
       <article class="card">
         <h3>Projects</h3>
-        <p class="small">Music videos, live shows, content direction, brand collabs. Ask about custom concepts — including the signature twin‑wrecking‑ball entrance.</p>
+        <p class="small">Music videos, live shows, content direction, brand collabs. Ask about custom concepts — including the signature twin-wrecking-ball entrance.</p>
       </article>
       <article class="card">
         <h3>Social</h3>
@@ -206,7 +212,7 @@
       </article>
       <article class="card">
         <h3>Press Kit</h3>
-        <p class="small">Need assets? <a href="#" onclick="window.alert('Add Dropbox/Drive link later')">Download the one‑pager</a> or request a custom deck.</p>
+        <p class="small">Need assets? <a href="#" onclick="window.alert('Add Dropbox/Drive link later')">Download the one-pager</a> or request a custom deck.</p>
       </article>
     </section>
   </main>
@@ -221,36 +227,64 @@
     // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Lightweight swing animation using JS for subtle motion
+    // RAF animation with stable transforms (no flicker)
     const period = 2800; // ms
-    const ampL = 12; // px
-    const ampR = 10; // px
-    const ampP = 8; // px
+    const ampL = 12, ampR = 10, ampP = 8;
     const l = document.querySelector('.swingL');
     const r = document.querySelector('.swingR');
     const p = document.querySelector('.swingPerson');
+    const img = document.querySelector('.photoOverlay');
+    const photoWrap = document.querySelector('.photoWrap');
+
     let t0 = performance.now();
+    let running = true;
+
     function tick(now){
+      if(!running) return;
       const t = (now - t0) / period * Math.PI * 2;
-      const dxL = Math.sin(t) * ampL;
-      const dyL = Math.cos(t) * ampL * .5;
-      const dxR = Math.sin(t + Math.PI) * ampR;
-      const dyR = Math.cos(t + Math.PI) * ampR * .5;
-      const dxP = Math.sin(t) * ampP;
-      const dyP = Math.cos(t) * ampP * .7;
-      l.setAttribute('transform', `translate(${dxL},${dyL}) rotate(${dxL*0.12},420,360)`);
-      r.setAttribute('transform', `translate(${dxR},${dyR}) rotate(${dxR*0.12},780,360)`);
-      p.setAttribute('transform', `translate(${dxP},${dyP})`);
+
+      // SVG swings
+      const dxL = Math.sin(t) * ampL, dyL = Math.cos(t) * ampL * .5;
+      const dxR = Math.sin(t + Math.PI) * ampR, dyR = Math.cos(t + Math.PI) * ampR * .5;
+      const dxP = Math.sin(t) * ampP, dyP = Math.cos(t) * ampP * .7;
+      if(l) l.setAttribute('transform', `translate(${dxL},${dyL}) rotate(${dxL*0.12},420,360)`);
+      if(r) r.setAttribute('transform', `translate(${dxR},${dyR}) rotate(${dxR*0.12},780,360)`);
+      if(p) p.setAttribute('transform', `translate(${dxP},${dyP})`);
+
+      // Photo parallax swing (CSS vars → GPU transform)
+      if(img && photoWrap){
+        const px = Math.sin(t + Math.PI * 0.06) * 8;     // left/right
+        const py = Math.cos(t + Math.PI * 0.06) * 5;     // up/down
+        const rot = Math.sin(t) * 1.2;                   // degrees
+        const sc = 0.985 + Math.cos(t) * 0.008;          // subtle scale
+
+        img.style.setProperty('--photo-x', px.toFixed(2)+'px');
+        img.style.setProperty('--photo-y', (16+py).toFixed(2)+'px');
+        img.style.setProperty('--photo-rot', rot.toFixed(2)+'deg');
+        img.style.setProperty('--photo-scale', sc.toFixed(3));
+
+        // keep glow aligned with photo
+        photoWrap.style.setProperty('--photo-x', px.toFixed(2)+'px');
+        photoWrap.style.setProperty('--photo-y', (16+py).toFixed(2)+'px');
+      }
+
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
+
+    // Pause when not visible to save battery (and sometimes reduce flicker on some GPUs)
+    document.addEventListener('visibilitychange', () => {
+      running = !document.hidden;
+      if (running) { t0 = performance.now(); requestAnimationFrame(tick); }
+    });
 
     // Fake send (replace with form backend later)
     function sendMessage(e){
       e.preventDefault();
       const btn = e.target.querySelector('button');
       btn.disabled = true; btn.textContent = 'Sending…';
-      setTimeout(()=>{btn.textContent='Send'; btn.disabled=false; document.getElementById('sent').style.display='block'; e.target.reset();}, 700);
+      setTimeout(()=>{btn.textContent='Send'; btn.disabled=false;
+        document.getElementById('sent').style.display='block'; e.target.reset();}, 700);
     }
   </script>
 </body>
