@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Darius B. McDowell</title>
+  <meta name="description" content="Official website of Darius B. McDowell — artist, creative, and performer." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23000'/%3E%3Ctext x='50' y='58' font-size='44' text-anchor='middle' fill='%23fff' font-family='Arial,Helvetica,sans-serif'%3ED%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --bg:#0b0f14; --fg:#e7f0ff; --muted:#b7c0d0; --accent:#6cf0ff; --accent2:#ff7a59;
+      --card:#121822; --glass:rgba(255,255,255,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0; background:var(--bg); color:var(--fg); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;}
+    a{color:var(--accent); text-decoration:none}
+    a:hover{opacity:.9; text-decoration:underline}
+    .wrap{max-width:1100px; margin:0 auto; padding:24px}
+
+    /* Header */
+    header{position:sticky; top:0; z-index:20; backdrop-filter:saturate(140%) blur(8px); background:linear-gradient(180deg, rgba(11,15,20,.9), rgba(11,15,20,.4) 70%, transparent);}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .brand{display:flex; gap:12px; align-items:center}
+    .brand .logo{width:36px; height:36px; border-radius:50%; background:radial-gradient(circle at 30% 30%, var(--accent), #2fb7ff 50%, #0969da 90%); box-shadow:0 0 24px rgba(108,240,255,.35)}
+    .brand h1{font-size:18px; margin:0; letter-spacing:.6px}
+    .nav a.btn{display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:14px; background:linear-gradient(135deg, var(--accent), #83ffe8); color:#001018; font-weight:600; box-shadow:0 8px 24px rgba(108,240,255,.22); border:1px solid rgba(255,255,255,.2)}
+
+    /* Hero */
+    .hero{position:relative; isolation:isolate;}
+    .hero .wrap{display:grid; grid-template-columns: 1.1fr .9fr; gap:24px; align-items:center}
+    .hero h2{font-size:clamp(32px, 4.5vw, 60px); line-height:1.04; margin:18px 0 12px}
+    .hero p{font-size:clamp(16px, 1.5vw, 19px); color:var(--muted)}
+    .cta{display:flex; gap:12px; margin-top:18px}
+    .cta .pill{padding:12px 16px; border-radius:999px; border:1px solid rgba(255,255,255,.15); background:var(--glass)}
+
+    /* Wrecking-ball stage */
+    .stage{position:relative; width:100%; aspect-ratio: 1.4 / 1; border-radius:22px; overflow:hidden; background:radial-gradient(120% 120% at 20% 0%, #0e2035 0%, #071018 45%, #02060d 100%); box-shadow:inset 0 0 80px rgba(0,0,0,.45), 0 20px 60px rgba(0,0,0,.35)}
+    .stage::after{content:""; position:absolute; inset:-2px; background:radial-gradient(120% 200% at 80% -20%, rgba(108,240,255,.18), transparent 60%), radial-gradient(120% 200% at 10% -30%, rgba(255,122,89,.22), transparent 60%); pointer-events:none}
+
+    /* Chains */
+    .chain{stroke:#a9b8cc; stroke-width:2.4; fill:none; filter:drop-shadow(0 2px 0 rgba(0,0,0,.6))}
+    /* Balls */
+    .ball{fill:url(#ballGrad); filter: drop-shadow(0 18px 24px rgba(0,0,0,.55))}
+    /* Person */
+    .person{fill:url(#suitGrad)}
+
+    /* Cards */
+    .cards{display:grid; grid-template-columns:repeat( auto-fit, minmax(260px, 1fr) ); gap:16px; margin:40px auto}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:18px}
+    .card h3{margin:4px 0 6px}
+    .small{font-size:13.5px; color:var(--muted)}
+
+    /* Footer */
+    footer{border-top:1px solid rgba(255,255,255,.08); margin-top:40px}
+
+    @media (max-width:900px){
+      .hero .wrap{grid-template-columns:1fr;}
+      .stage{aspect-ratio: 1 / 1}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>Darius B. McDowell</h1>
+      </div>
+      <div class="actions">
+        <a class="btn" href="#contact">Book Darius</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" aria-label="Hero: Darius swinging in on twin wrecking balls">
+    <div class="wrap">
+      <div>
+        <h2>Bold. Kinetic. Unforgettable.</h2>
+        <p>Creative direction, performance, and vibes. When Darius enters, the room swings.
+        </p>
+        <div class="cta">
+          <span class="pill">Artist • Performer • Creative</span>
+          <a class="pill" href="#contact">Inquire for shows</a>
+        </div>
+      </div>
+      <div>
+        <!-- Animated SVG scene (no external assets required) -->
+        <div class="stage" role="img" aria-label="Stylized animation of a person swinging from two chains attached to wrecking balls">
+          <svg viewBox="0 0 1200 860" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="ballGrad" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#465469"/>
+                <stop offset="50%" stop-color="#2e394a"/>
+                <stop offset="100%" stop-color="#1a2230"/>
+              </linearGradient>
+              <linearGradient id="suitGrad" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#83ffe8"/>
+                <stop offset="100%" stop-color="#6cf0ff"/>
+              </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="6" result="b"/>
+                <feMerge>
+                  <feMergeNode in="b"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- Ceiling bar -->
+            <rect x="80" y="70" width="1040" height="6" fill="#445" opacity=".6" />
+
+            <!-- Left chain -->
+            <path id="chainL" class="chain" d="M 240 70 Q 300 220 420 360" />
+            <!-- Right chain -->
+            <path id="chainR" class="chain" d="M 960 70 Q 900 220 780 360" />
+
+            <!-- Left ball -->
+            <g class="swingL">
+              <circle class="ball" cx="420" cy="360" r="70" />
+            </g>
+            <!-- Right ball -->
+            <g class="swingR">
+              <circle class="ball" cx="780" cy="360" r="70" />
+            </g>
+
+            <!-- Person (stylized) -->
+            <g class="person swingPerson" filter="url(#glow)">
+              <!-- body -->
+              <path d="M 600 270 q -34 50 -30 110 q 3 48 22 70 q 20 22 58 26 q 36 4 56 -8 q 24 -14 24 -44 q 0 -28 -24 -46 q -39 -30 -53 -67 q -18 -48 -53 -41 z" />
+              <!-- head -->
+              <circle cx="617" cy="250" r="26" fill="#f7fbff" />
+              <!-- left hand to chainL -->
+              <circle cx="545" cy="260" r="10" fill="#f7fbff" />
+              <!-- right hand to chainR -->
+              <circle cx="690" cy="265" r="10" fill="#f7fbff" />
+            </g>
+
+            <!-- chain links to hands -->
+            <path class="chain" d="M 545 260 Q 510 210 420 360" />
+            <path class="chain" d="M 690 265 Q 820 210 780 360" />
+
+            <!-- Ground sparkles -->
+            <g opacity=".35">
+              <circle cx="180" cy="740" r="2" fill="#6cf0ff"/>
+              <circle cx="260" cy="780" r="2" fill="#ff7a59"/>
+              <circle cx="980" cy="720" r="2" fill="#6cf0ff"/>
+              <circle cx="840" cy="800" r="2" fill="#ff7a59"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <section class="cards" aria-label="Highlights">
+      <article class="card">
+        <h3>About</h3>
+        <p class="small">Darius brings high-energy performance and crisp creative direction. He’s equally at home on stage and on set, with a vibe that swings from polished to wild in a heartbeat.</p>
+      </article>
+      <article class="card">
+        <h3>Projects</h3>
+        <p class="small">Music videos, live shows, content direction, brand collabs. Ask about custom concepts — including the signature twin‑wrecking‑ball entrance.</p>
+      </article>
+      <article class="card">
+        <h3>Social</h3>
+        <p class="small">Catch the latest on Instagram: <a href="https://www.instagram.com/darparvenu_/" target="_blank" rel="noopener">@darparvenu_</a></p>
+      </article>
+    </section>
+
+    <section id="contact" class="cards" aria-label="Contact">
+      <article class="card">
+        <h3>Booking & Collabs</h3>
+        <form id="contactForm" class="small" onsubmit="sendMessage(event)">
+          <label>Name<br/><input required name="name" placeholder="Your name" style="width:100%; padding:10px; margin:6px 0; border-radius:10px; border:1px solid rgba(255,255,255,.2); background:var(--glass); color:var(--fg)"></label>
+          <label>Email or IG handle<br/><input required name="reply" placeholder="you@email.com or @handle" style="width:100%; padding:10px; margin:6px 0; border-radius:10px; border:1px solid rgba(255,255,255,.2); background:var(--glass); color:var(--fg)"></label>
+          <label>Message<br/>
+            <textarea required name="msg" rows="4" placeholder="Tell us about your project…" style="width:100%; padding:10px; margin:6px 0; border-radius:10px; border:1px solid rgba(255,255,255,.2); background:var(--glass); color:var(--fg)"></textarea>
+          </label>
+          <button class="btn" type="submit" style="margin-top:8px">Send</button>
+          <p id="sent" class="small" style="display:none; margin-top:8px; color:#a9f5d1">Thanks! We’ll get back to you shortly.</p>
+        </form>
+      </article>
+      <article class="card">
+        <h3>Press Kit</h3>
+        <p class="small">Need assets? <a href="#" onclick="window.alert('Add Dropbox/Drive link later')">Download the one‑pager</a> or request a custom deck.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap small">
+      <p>© <span id="y"></span> Darius B. McDowell • Site by 3dvr.tech • <a href="https://www.instagram.com/darparvenu_/" target="_blank" rel="noopener">Instagram</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Lightweight swing animation using JS for subtle motion
+    const period = 2800; // ms
+    const ampL = 12; // px
+    const ampR = 10; // px
+    const ampP = 8; // px
+    const l = document.querySelector('.swingL');
+    const r = document.querySelector('.swingR');
+    const p = document.querySelector('.swingPerson');
+    let t0 = performance.now();
+    function tick(now){
+      const t = (now - t0) / period * Math.PI * 2;
+      const dxL = Math.sin(t) * ampL;
+      const dyL = Math.cos(t) * ampL * .5;
+      const dxR = Math.sin(t + Math.PI) * ampR;
+      const dyR = Math.cos(t + Math.PI) * ampR * .5;
+      const dxP = Math.sin(t) * ampP;
+      const dyP = Math.cos(t) * ampP * .7;
+      l.setAttribute('transform', `translate(${dxL},${dyL}) rotate(${dxL*0.12},420,360)`);
+      r.setAttribute('transform', `translate(${dxR},${dyR}) rotate(${dxR*0.12},780,360)`);
+      p.setAttribute('transform', `translate(${dxP},${dyP})`);
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    // Fake send (replace with form backend later)
+    function sendMessage(e){
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      setTimeout(()=>{btn.textContent='Send'; btn.disabled=false; document.getElementById('sent').style.display='block'; e.target.reset();}, 700);
+    }
+  </script>
+</body>
+</html>
